@@ -12,5 +12,6 @@ module DataParser
   end
   require 'data_parser/tweet_eater'
   require 'data_parser/json_data'
+  require 'data_parser/twitter_catcher'
 end
 
