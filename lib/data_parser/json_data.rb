@@ -4,6 +4,7 @@ require 'whatlanguage'
 
 class JSONData
 
+  attr_accessor :folder, :json_input, :csv_output, :filter_language
   def initialize(folder = 'spec/fixtures/100_tweets',
                   json_input = 'tweets.json', 
                   csv_output = 'tweets_english.csv')
@@ -16,9 +17,9 @@ class JSONData
   def trim(string, *url)
     begin
       string.slice!(url.first) if (url.size != 0) & (string != '')
-      string.slice!(URI.regexp)
-      string.gsub!(/[^a-zA-Z]/, ' ').downcase! 
-      return string.strip.split.join(' ')
+      string = string.strip.gsub(/[^a-zA-Z]/, ' ')
+      string = string.downcase.squeeze
+      string = string.split.reject{|word| word.size < 3}.join(' ')
     rescue NoMethodError
     end
   end
