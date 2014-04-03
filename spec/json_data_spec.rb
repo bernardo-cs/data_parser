@@ -1,4 +1,5 @@
 require 'data_parser'
+require 'pry-rescue/rspec'
 
 describe 'JSONData' do
  before :each do
@@ -11,26 +12,26 @@ describe 'JSONData' do
 
  describe '#trim' do
   it 'removes specified uris from strings' do
-    @js.trim('should www.google.com','www.google.com').should eq('should')
+    @js.trim('charizard www.google.com','www.google.com').should eq('charizard')
   end
   it 'removes extra spaces and tabs' do
-    @js.trim("\tshould    omglop\n\r").should eq('should omglop')
+    @js.trim("\tcharizard    omglop\n\r").should eq('charizard omglop')
   end
   it 'remove letter that occur twice' do
-    @js.trim('hello').should eq('helo')
+    @js.trim('charizaaaaaaaard').should eq('charizard')
   end
   it 'downcase words' do
     @js.trim('SHOULD').should eq('should')
   end
   it 'removes words smaller than 3 chars' do
-    @js.trim('should remove e but not aei').should eq('should remove but not aei')
+    @js.trim('remove ol yhey').should eq('remove yhey')
   end
  end
 
  describe '#line_to_csv' do
   it 'receives a line in json and returns a string in the format username,tweet text' do
    @json_line = IO.read(File.join DataParser.spec, 'fixtures/1_tweets/tweets.json')  
-   @csv_line  = IO.read(File.join DataParser.spec, 'fixtures/1_tweets/tweets.csv').strip
+   @csv_line  = IO.read(File.join DataParser.spec, 'fixtures/1_tweets/tweets_english.csv').strip
    @js.line_to_csv(@json_line).should eq(@csv_line) 
   end
   end
@@ -41,7 +42,7 @@ describe 'JSONData' do
   it 'accepts other languages' do
    json_line_portuguese = IO.read(File.join DataParser.spec, 'fixtures/1_tweets/tweets_portuguese.json')  
    @js.filter_language = :portuguese
-   @js.line_to_csv(json_line_portuguese).should eq('Missa_Man,ola meu nome bernardo como que chamas')
+   @js.line_to_csv(json_line_portuguese).should eq('Missa_Man,ola meu nome bernardo como chamas')
  end
 
  describe '#to_csv' do

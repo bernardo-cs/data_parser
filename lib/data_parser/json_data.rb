@@ -17,6 +17,7 @@ class JSONData
   def trim(string, *url)
     begin
       string.slice!(url.first) if (url.size != 0) & (string != '')
+      string = string.remove_stop_words
       string = string.strip.gsub(/[^a-zA-Z]/, ' ')
       string = string.downcase.squeeze
       string = string.split.reject{|word| word.size < 3}.join(' ')
@@ -32,7 +33,7 @@ class JSONData
     end
     text = url != nil ? trim(tweet['text'], url) : trim(tweet['text'])
     begin
-      return "#{tweet["user"]["screen_name"]}#{delimiting_char}#{text}" if (text.size != 0 and text.language == filter_language)
+      "#{tweet["user"]["screen_name"]}#{delimiting_char}#{text}" if (text.size != 0 and tweet['text'].language == filter_language)
     rescue NoMethodError
     end
   end
