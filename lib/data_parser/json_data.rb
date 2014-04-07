@@ -1,4 +1,5 @@
 require 'uri'
+require 'benchmark'
 require 'json'
 require 'whatlanguage'
 require 'logger'
@@ -46,7 +47,25 @@ class JSONData
     rescue NoMethodError
     end
   end
-  
+  def to_csv_compar
+    Benchmark.bm(10) do |x|
+      x.report "lazy" do
+        to_csv_lazy
+      end
+      x.report "non lazy" do
+        to_csv
+      end
+    end
+  end
+  def to_csv_lazy(csv_output = @csv_output, json_input = @json_input)
+    File.delete(csv_output) if File.exist?(csv_output)
+    out_file = File.new(csv_output, 'w')
+    File.open(json_input, 'r').lazy.each do |line|
+      csv_line = line_to_csv(line)
+      out_file.puts(csv_line) unless csv_line.nil?
+    end
+    out_file.close
+  end
   def to_csv(csv_output = @csv_output, json_input = @json_input)
     File.delete(csv_output) if File.exist?(csv_output)
     out_file = File.new(csv_output, 'w')
