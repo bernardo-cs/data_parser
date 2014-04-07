@@ -14,6 +14,9 @@ module DataParser
   def self.storage
     File.join root, 'storage'
   end
+  def self.log
+    File.join root, 'logs'
+  end
   def self.spec
     File.join root, 'spec'
   end

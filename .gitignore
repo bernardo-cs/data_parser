@@ -16,6 +16,7 @@ spec/fixtures
 test/tmp
 test/version_tmp
 tmp
+logs
 
 ### OSX ###
 .DS_Store

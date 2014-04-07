@@ -1,21 +1,26 @@
 require 'uri'
 require 'json'
 require 'whatlanguage'
+require 'logger'
 
 class JSONData
-
   attr_accessor :folder, :json_input, :csv_output, :filter_language
+  attr_reader :logger
+  
   def initialize(folder = 'spec/fixtures/100_tweets',
                   json_input = 'tweets.json', 
                   csv_output = 'tweets_english.csv')
     @folder = File.join(DataParser.root, folder)
     @json_input = File.join(@folder, json_input)
     @csv_output = File.join(@folder, csv_output)
+    @logger = Logger.new(File.join(DataParser.log, "trim.log"))
     @filter_language = :english
+    logger.debug("\n\n\n###-------- #{folder} --------###\n")
   end
 
   def trim(string, *url)
     begin
+      string = string.gsub(URI.regexp, '')
       string.slice!(url.first) if (url.size != 0) & (string != '')
       string = string.remove_stop_words
       string = string.strip.gsub(/[^a-zA-Z]/, ' ')
@@ -33,7 +38,11 @@ class JSONData
     end
     text = url != nil ? trim(tweet['text'], url) : trim(tweet['text'])
     begin
-      "#{tweet["user"]["screen_name"]}#{delimiting_char}#{text}" if (text.size != 0 and tweet['text'].language == filter_language)
+      if (text.size != 0 and tweet['text'].language == filter_language)
+        logger.debug("[ORIGINAL]" + String(tweet['text']))
+        logger.debug("[TRIMED]  " + String(text))
+        "#{tweet["user"]["screen_name"]}#{delimiting_char}#{text}"     
+      end
     rescue NoMethodError
     end
   end
