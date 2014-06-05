@@ -1,10 +1,7 @@
-require "data_parser/version"
+require_relative "data_parser/version"
 
 module DataParser
-  require 'data_parser/tweet_eater'
-  require 'data_parser/json_data'
-  require 'data_parser/twitter_catcher'
-  require 'data_parser/string.rb'
+
   def self.parse
     "Hello there"
   end
@@ -20,5 +17,9 @@ module DataParser
   def self.spec
     File.join root, 'spec'
   end
+
+  require_relative 'data_parser/json_data'
+  require_relative 'data_parser/twitter_catcher'
+  require_relative 'data_parser/string'
 end
 
