@@ -47,6 +47,7 @@ class JSONData
     rescue NoMethodError
     end
   end
+
   def to_csv_compar
     Benchmark.bm(10) do |x|
       x.report "lazy" do
@@ -57,6 +58,7 @@ class JSONData
       end
     end
   end
+
   def to_csv_lazy(csv_output = @csv_output, json_input = @json_input)
     File.delete(csv_output) if File.exist?(csv_output)
     out_file = File.new(csv_output, 'w')
@@ -66,6 +68,7 @@ class JSONData
     end
     out_file.close
   end
+
   def to_csv(csv_output = @csv_output, json_input = @json_input)
     File.delete(csv_output) if File.exist?(csv_output)
     out_file = File.new(csv_output, 'w')
