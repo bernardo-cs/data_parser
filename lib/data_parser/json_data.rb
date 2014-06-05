@@ -1,4 +1,3 @@
-require 'uri'
 require 'benchmark'
 require 'json'
 require 'whatlanguage'
@@ -21,12 +20,8 @@ class JSONData
 
   def trim(string, *url)
     begin
-      string = string.gsub(URI.regexp, '')
       string.slice!(url.first) if (url.size != 0) & (string != '')
-      string = string.remove_stop_words
-      string = string.strip.gsub(/[^a-zA-Z]/, ' ')
-      string = string.downcase.squeeze
-      string = string.split.reject{|word| word.size < 3}.join(' ')
+      string.trim
     rescue NoMethodError
     end
   end
