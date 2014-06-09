@@ -10,7 +10,8 @@ class JSONData
   def initialize(folder = 'spec/fixtures/100_tweets',
                   json_input = 'tweets.json', 
                   csv_output = 'tweets_english.csv')
-    @folder = File.join(DataParser.root, folder)
+
+    @folder = folder
     @json_input = File.join(@folder, json_input)
     @csv_output = File.join(@folder, csv_output)
     @logger = Logger.new(File.join(DataParser.log, "trim.log"))
