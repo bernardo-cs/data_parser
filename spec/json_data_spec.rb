@@ -10,22 +10,6 @@ describe 'JSONData' do
   it 'removes specified uris from strings' do
     @js.trim('charizard www.google.com','www.google.com').should eq('charizard')
   end
-
-  it 'removes extra spaces and tabs' do
-    @js.trim("\tcharizard    omglop\n\r").should eq('charizard omglop')
-  end
-
-  it 'remove letter that occur twice' do
-    @js.trim('charizaaaaaaaard').should eq('charizard')
-  end
-
-  it 'downcase words' do
-    @js.trim('SHOULD').should eq('should')
-  end
-
-  it 'removes words smaller than 3 chars' do
-    @js.trim('remove ol yhey').should eq('remove yhey')
-  end
  end
 
  describe '#line_to_csv' do
@@ -44,12 +28,12 @@ describe 'JSONData' do
   it 'accepts other languages' do
    json_line_portuguese = IO.read(File.join DataParser.spec, 'fixtures/1_tweets/tweets_portuguese.json')  
    @js.filter_language = :portuguese
-   @js.line_to_csv(json_line_portuguese).should eq('Missa_Man,ola como vai sua vida este texto esta portugues')
+   @js.line_to_csv(json_line_portuguese).should eq('197701824344629248,Missa_Man,ola como vai sua vida este texto esta portugues')
  end
 
  describe '#to_csv' do
    it 'parses a json object correctly to csv' do
-    csv_file = IO.read(File.join DataParser.spec, 'fixtures/100_tweets/tweets_english_frozen.csv')  
+    csv_file = IO.read( File.join( DataParser.spec, 'fixtures/100_tweets/tweets_english_frozen.csv' ) )  
     @js.to_csv
     csv_file.should eq(IO.read @js.csv_output)
    end

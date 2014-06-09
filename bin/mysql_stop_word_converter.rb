@@ -1,3 +1,5 @@
+# Transforms MySQL stop words list, to a more adequate list for 
+# twitter data interpretation
 require_relative '../lib/data_parser'
 
 require 'set'

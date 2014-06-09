@@ -37,7 +37,7 @@ class JSONData
       if (text.size != 0 and tweet['text'].language == filter_language)
         logger.debug("[ORIGINAL]" + String(tweet['text']))
         logger.debug("[TRIMED]  " + String(text))
-        "#{tweet["user"]["screen_name"]}#{delimiting_char}#{text}"     
+        "#{tweet["id"]}#{delimiting_char}#{tweet["user"]["screen_name"]}#{delimiting_char}#{text}"     
       end
     rescue NoMethodError
     end
