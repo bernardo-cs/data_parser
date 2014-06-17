@@ -22,6 +22,7 @@ def hash_to_file hash, file_name
 end
 
 data_set_path = '/src/thesis/inesc_data_set_sample/decompressed/*_english_trimed.csv'
+data_set_server_path = '/home/bersimoes/coding/twitter_data_francisco/decompressed'
 Dir.new(data_set_path).each do |file_name|
   if file_name.match /csv/
     file_reader("../decompressed/" + file_name)
