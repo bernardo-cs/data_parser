@@ -10,6 +10,12 @@ describe 'String' do
     end
   end
 
+  describe '#stem' do
+    it "stems words words from string" do
+      "Im running while speaking".stem.should eq('Im run while speak')
+    end
+  end
+
   describe '#remove_stop_words_trimed' do
     it "removes trimed stop words" do
       IO.read(File.join(DataParser.storage, 'mysql_stop_words_trimed.txt')).remove_stop_words_trimed.should eq('')
@@ -18,11 +24,11 @@ describe 'String' do
 
   describe '#trim' do
     it "aplies a ton of functions that makes tweets easyer to cluster" do
-      "Ruby Life Programming".trim.should eql('ruby life programing')
-      "Ruuuuuuuuuby Liiiife Programming".trim.should eql('ruby life programing')
-      "Ruuuuuuuuuby!!!! Liiiife!!! Programming".trim.should eql('ruby life programing')
-      "Ruuuuuuuuuby!!!! Liiiife!!! Programming".trim.should eql('ruby life programing')
-      "Trying Ruuuuuuuuuby!!!! took Liiiife!!! together for Programming".trim.should eql('ruby life programing')
+      "Ruby Life Programming".trim.should eql('rubi life program')
+      "Ruuuuuuuuuby Liiiife Programming".trim.should eql('rubi life program')
+      "Ruuuuuuuuuby!!!! Liiiife!!! Programming".trim.should eql('rubi life program')
+      "Ruuuuuuuuuby!!!! Liiiife!!! Programming".trim.should eql('rubi life program')
+      "Trying Ruuuuuuuuuby!!!! took Liiiife!!! together for Programming".trim.should eql('rubi life program')
     end  
 
     it "keeps removing stop words" do
@@ -38,7 +44,7 @@ describe 'String' do
     end
 
     it 'removes words smaller than 3 chars' do
-     'remove ol yhey'.trim.should eq('remove yhey')
+     'remove ol yhey'.trim.should eq('remov yhey')
     end 
   end
 end
