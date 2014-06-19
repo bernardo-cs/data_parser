@@ -1,6 +1,7 @@
 require 'twitter'
 class TwitterCatcher
   attr_accessor :client
+
   def initialize( folder = 'spec/fixtures/100_tweets', 
                  csv_input = 'tweets_english.csv',
                  output_folder = 'users' )
@@ -15,14 +16,17 @@ class TwitterCatcher
     @fetched_users = []
     @csv_input = File.join(folder, csv_input)
   end
+
   def each_username csv_file = @csv_input
    IO.readlines(@csv_input).each do |line|
     yield line.split(',')[0]
    end
   end
+
   def build_directory username, client = @client, users_dir = @users_dir 
     Dir.mkdir(File.join(users_dir, username)) unless @fetched_users.include? username
   end
+
   def get_user_tweets username, client = @client, users_dir = @users_dir 
     begin
       out_file = File.new(File.join(users_dir, username, 'tweets.csv'),'w') 
@@ -38,11 +42,13 @@ class TwitterCatcher
       @unaccessible_users << username
     end 
   end
+
   def write_vector_to_file path, file_name, vector
     file = File.new(File.join(path,file_name + ".csv"), 'w')
     vector.each{|username| file.puts username}
     file.close
   end
+
   def get_users_tweets client = @client
     each_username do |username| 
       puts "setting up stuff for #{username}"

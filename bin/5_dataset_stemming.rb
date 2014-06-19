@@ -1,10 +1,10 @@
 require 'rubygems'
 require 'lingua/stemmer'
 
-
 stemmer= Lingua::Stemmer.new(:language => 'en')
 words_hash = {}
 data_set_path = 'storage/'
+
 File.foreach('storage/twitter_dataset_words') do |line|
   if words_hash.has_key?( stemmer.stem( line.split(',').first.to_sym  ) )
     words_hash[stemmer.stem( line.split(',').first.to_sym )] = words_hash[stemmer.stem( line.split(',').first.to_sym )].to_i + line.split(',').last.to_i

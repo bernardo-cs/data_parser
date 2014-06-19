@@ -25,6 +25,10 @@ describe 'String' do
       "Trying Ruuuuuuuuuby!!!! took Liiiife!!! together for Programming".trim.should eql('ruby life programing')
     end  
 
+    it "keeps removing stop words" do
+      File.read("storage/mysql_stop_words_trimed.txt").each_line{ |line| line.trim.should eq('')}
+    end
+
     it 'removes specified uris from strings' do
      'charizard http://www.google.com'.trim.should eq('charizard')
     end
