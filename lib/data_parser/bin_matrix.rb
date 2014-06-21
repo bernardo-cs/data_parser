@@ -1,5 +1,5 @@
 class BinMatrix  
-  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input
+  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger
 
   def initialize(bin_matrix_csv = 'spec/fixtures/100_tweets/bin_matrix.csv', 
                  csv_input = 'spec/fixtures/100_tweets/tweets_english.csv',
@@ -13,28 +13,20 @@ class BinMatrix
     @documents_hash = Hash.new
     @bin_matrix = build_bin_matrix
     @words = @documents_hash.keys
+    @line_id_logger = {}
 
     build_documents_hash()
   end
 
   def build_documents_hash
     File.open(@csv_input).each_line.with_index do |line, i|
-      if @id_index.nil?
-        words_from(line){ |word|  add_to_documents_hash(i, word)  }
-      else
-        words_from(line){ |word|  add_to_documents_hash( get_id(line), word)  }
-      end
+      @line_id_logger[get_id(line)] = i unless @id_index.nil?
+      words_from(line){ |word|  add_to_documents_hash( i, word)  }
     end
   end
 
   def build_bin_matrix 
-    bin_matrix = []
-    @documents_hash.each do |word_ocurrences|
-      bin_vec = Array.new(@tweets_number)
-      word_ocurrences.last.map{|p| bin_vec[p-1] = 1}
-      bin_matrix.push( bin_vec.map{|p| p.nil? ? 0 : 1} )
-    end
-    bin_matrix
+    @documents_hash.inject([]) { |vec, word_ocurrences| vec.push(build_row(word_ocurrences.last))}.transpose
   end
 
   def read_tweet tweet_number, bin_matrix = @bin_matrix, documents_hash = @documents_hash
@@ -48,13 +40,17 @@ class BinMatrix
     File.delete(bin_mat_csv_file) if File.exist?(bin_mat_csv_file)
     CSV.open(bin_mat_csv_file, 'ab') do |csv|
       csv << columns if columns != nil
-      bin_matrix.transpose.each do |vec|
+      bin_matrix.each do |vec|
         csv << vec
       end
     end
   end
 
   private
+  def build_row ocurrences
+      ocurrences.inject(Array.new(@tweets_number)){|vec,p| vec[p] = 1; vec}.map{|p| p.nil? ? 0 : 1}
+  end
+  
   def add_to_documents_hash i, word
     word = word.to_sym
     @documents_hash.has_key?( word ) ? @documents_hash[ word ].push( i ) : @documents_hash[ word ] = [i]
@@ -65,6 +61,6 @@ class BinMatrix
   end
 
   def get_id(line)
-    line.split(',')[@id_index]
+    @id_index.nil? ? nil : line.split(',')[@id_index]
   end
 end
