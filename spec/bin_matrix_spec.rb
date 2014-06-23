@@ -35,4 +35,20 @@ describe BinMatrix do
                                                 [0, 0, 0, 0, 1, 1, 1] ])
     end
   end
+
+  describe '#read_tweet' do
+    it "reads a binary vector and converts it to a tweet" do
+      @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @csv_input_file.path, 2)
+      @bin_matrix.read_tweet(@bin_matrix.bin_matrix.first).should eql("ayrikahnichole xbox")
+    end
+  end
+
+  describe '#to_csv' do
+    it "converts the binary matrix to a csv file" do
+      @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @csv_input_file.path, 2)
+      @bin_matrix.to_csv!
+      File.read( @bin_matrix.bin_matrix_csv ).should eql(
+        "ayrikahnichole,xbox,yuda,hono,cazorla,playing,imp\n1,1,0,0,0,0,0\n0,1,1,1,0,0,0\n0,0,0,0,1,1,1\n")
+    end
+  end
 end

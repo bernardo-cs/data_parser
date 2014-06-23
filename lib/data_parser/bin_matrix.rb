@@ -1,5 +1,7 @@
+require 'csv'
+
 class BinMatrix  
-  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger
+  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger, :bin_matrix_csv
 
   def initialize(bin_matrix_csv = 'spec/fixtures/100_tweets/bin_matrix.csv', 
                  csv_input = 'spec/fixtures/100_tweets/tweets_english.csv',
@@ -11,11 +13,11 @@ class BinMatrix
     @csv_input =  csv_input
     @tweets_number = File.open(csv_input).readlines.size
     @documents_hash = Hash.new
-    @bin_matrix = build_bin_matrix
-    @words = @documents_hash.keys
     @line_id_logger = {}
 
     build_documents_hash()
+    @bin_matrix = build_bin_matrix
+    @words = @documents_hash.keys
   end
 
   def build_documents_hash
@@ -29,24 +31,29 @@ class BinMatrix
     @documents_hash.inject([]) { |vec, word_ocurrences| vec.push(build_row(word_ocurrences.last))}.transpose
   end
 
-  def read_tweet tweet_number, bin_matrix = @bin_matrix, documents_hash = @documents_hash
-    tweet_text = ""
-    bin_matrix.each.with_index{|vec,i| tweet_text = ( tweet_text + " " + documents_hash.keys[i].to_s ) if vec[tweet_number] == 1}
-    tweet_text[0] = ''
-    tweet_text
+  def read_tweet bin_vector
+    convert_indexes_to_string( find_words_indexes( bin_vector ))
   end
 
-  def to_csv bin_mat_csv_file = @bin_matrix_csv, columns = @words, bin_matrix = @bin_matrix
-    File.delete(bin_mat_csv_file) if File.exist?(bin_mat_csv_file)
-    CSV.open(bin_mat_csv_file, 'ab') do |csv|
-      csv << columns if columns != nil
-      bin_matrix.each do |vec|
+  def to_csv!
+    File.delete(@bin_matrix_csv) if File.exist?(@bin_matrix_csv)
+    CSV.open(@bin_matrix_csv, 'ab') do |csv|
+      csv << @words if @words != nil
+      @bin_matrix.each do |vec|
         csv << vec
       end
     end
   end
 
   private
+  def convert_indexes_to_string indexes_array
+    indexes_array.inject(""){ |str,i| str + @words[i].to_s + " "}[0..-2]
+  end
+
+  def find_words_indexes bin_vector
+    bin_vector.each_index.select{ |i| bin_vector[i] == 1 }
+  end
+
   def build_row ocurrences
       ocurrences.inject(Array.new(@tweets_number)){|vec,p| vec[p] = 1; vec}.map{|p| p.nil? ? 0 : 1}
   end
