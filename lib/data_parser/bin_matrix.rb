@@ -1,7 +1,7 @@
 require 'csv'
 
 class BinMatrix  
-  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger, :bin_matrix_csv
+  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger, :bin_matrix_csv 
 
   def initialize(bin_matrix_csv = 'spec/fixtures/100_tweets/bin_matrix.csv', 
                  csv_input = 'spec/fixtures/100_tweets/tweets_english.csv',
@@ -13,6 +13,7 @@ class BinMatrix
     @csv_input =  csv_input
     @tweets_number = File.open(csv_input).readlines.size
     @documents_hash = Hash.new
+    @words_filter = words_filter
     @line_id_logger = {}
 
     build_documents_hash()
