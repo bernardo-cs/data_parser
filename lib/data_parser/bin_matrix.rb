@@ -13,7 +13,6 @@ class BinMatrix
     @csv_input =  csv_input
     @tweets_number = File.open(csv_input).readlines.size
     @documents_hash = Hash.new
-    @words_filter = words_filter
     @line_id_logger = {}
 
     build_documents_hash()
