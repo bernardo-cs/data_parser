@@ -20,6 +20,18 @@ describe BinMatrix do
 
   describe '#build_bin_matrix' do
     it "constructs a binary matrix from the documents hash" do
+        @input_array = []
+    @input_array << "ayrikahnichole xbox"
+    @input_array << "yuda xbox hono"
+    @input_array << "cazorla playing imp"
+   @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 0 )
+      @bin_matrix.build_bin_matrix.should eql([ [1, 1, 0, 0, 0, 0, 0],
+                                                [0, 1, 1, 1, 0, 0, 0],
+                                                [0, 0, 0, 0, 1, 1, 1] ])
+    end
+  end
+  describe '#build_bin_matrix' do
+    it "constructs a binary matrix from the documents hash" do
       @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 2)
       @bin_matrix.build_bin_matrix.should eql([ [1, 1, 0, 0, 0, 0, 0],
                                                 [0, 1, 1, 1, 0, 0, 0],
