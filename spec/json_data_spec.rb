@@ -28,7 +28,7 @@ describe 'JSONData' do
   it 'accepts other languages' do
    json_line_portuguese = IO.read(File.join DataParser.spec, 'fixtures/1_tweets/tweets_portuguese.json')  
    @js.filter_language = :portuguese
-   @js.line_to_csv(json_line_portuguese).should eq('197701824344629248,Missa_Man,ola como vai sua vida este texto esta portugues')
+   @js.line_to_csv(json_line_portuguese).should eq('197701824344629248,Missa_Man,ola como vai sua vida est texto esta portugu')
  end
 
  describe '#to_csv' do

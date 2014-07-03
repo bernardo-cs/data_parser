@@ -1,4 +1,5 @@
 require 'uri'
+require 'lingua/stemmer'
 
 class String
   @stop_words_cache = nil
@@ -11,6 +12,12 @@ class String
      .squeeze
      .remove_small_words
      .remove_stop_words_trimed
+     .stem
+  end
+
+  def stem
+    stemmer= Lingua::Stemmer.new(:language => 'en')
+    self.split(' ').map{|word| stemmer.stem(word)}.join(' ')
   end
 
   def remove_small_words
