@@ -11,7 +11,7 @@ class BinMatrix
     @id_index = id_index
     @bin_matrix_csv = bin_matrix_csv
     @csv_input =  csv_input
-    @tweets_number = File.open(csv_input).readlines.size
+    @tweets_number = get_tweets_number
     @documents_hash = Hash.new
     @line_id_logger = {}
 
@@ -21,9 +21,13 @@ class BinMatrix
   end
 
   def build_documents_hash
-    File.open(@csv_input).each_line.with_index do |line, i|
-      @line_id_logger[get_id(line)] = i unless @id_index.nil?
-      words_from(line){ |word|  add_to_documents_hash( i, word)  }
+    begin
+      build_for_file()
+    rescue TypeError
+      #Raise e
+      build_for_array()
+    #else
+      #Raise 'Build Matrix Receives File or Array'
     end
   end
 
@@ -46,6 +50,21 @@ class BinMatrix
   end
 
   private
+  def get_tweets_number
+    csv_input.class == String ? File.open(csv_input).readlines.size : csv_input.size
+  end
+
+  def build_for_file
+      File.open(@csv_input).each_line.with_index do |line, i|
+        @line_id_logger[get_id(line)] = i unless @id_index.nil?
+        words_from(line){ |word|  add_to_documents_hash( i, word)  }
+      end
+  end
+
+  def build_for_array
+    @csv_input.each.with_index{ |t, i| words_from(t){ |word| add_to_documents_hash( i, word)  } }
+  end
+
   def convert_indexes_to_string indexes_array
     indexes_array.inject(""){ |str,i| str + @words[i].to_s + " "}[0..-2]
   end
