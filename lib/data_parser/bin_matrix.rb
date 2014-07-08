@@ -2,7 +2,8 @@ require 'csv'
 
 class BinMatrix  
   attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger, :bin_matrix_csv 
-
+  include Enumerable
+  
   def initialize(bin_matrix_csv = 'spec/fixtures/100_tweets/bin_matrix.csv', 
                  csv_input = 'spec/fixtures/100_tweets/tweets_english.csv',
                  text_index = 2,
@@ -18,6 +19,10 @@ class BinMatrix
     build_documents_hash()
     @bin_matrix = build_bin_matrix
     @words = @documents_hash.keys
+  end
+
+  def each &block
+    @bin_matrix.each{ |e| yield e }
   end
 
   def build_documents_hash

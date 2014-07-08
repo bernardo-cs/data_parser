@@ -12,6 +12,16 @@ describe BinMatrix do
     @csv_matrix_file = Tempfile.new('csv_matrix')
   end
 
+  describe 'inmplements enumerable on the matrix' do
+    it "implements max and  min" do
+      @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @csv_input_file.path, 2)
+      @bin_matrix.build_documents_hash
+      @bin_matrix.inject([]){ |arr,e| arr << e}.should eql(@bin_matrix.bin_matrix.inject([]){ |arr,e| arr << e})
+      @bin_matrix.max.should eql(@bin_matrix.bin_matrix.max)
+      @bin_matrix.min.should eql(@bin_matrix.bin_matrix.min)
+    end
+  end
+
   describe "#build_documents_hash" do
     it "converts the csv file into an hash, where keys are the words, and the values are arrays with the number of the line where the word ocurred" do
       @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @csv_input_file.path, 2)
