@@ -21,10 +21,6 @@ class BinMatrix
     @words = @documents_hash.keys
   end
 
-  def each &block
-    @bin_matrix.each{ |e| yield e }
-  end
-
   def build_documents_hash
     begin
       build_for_file()
@@ -93,5 +89,9 @@ class BinMatrix
 
   def get_id(line)
     @id_index.nil? ? nil : line.split(',')[@id_index]
+  end
+
+  def method_missing( meth, *args, &block )
+    @bin_matrix.send( meth, *args, &block )
   end
 end
