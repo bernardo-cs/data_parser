@@ -1,10 +1,10 @@
 require 'csv'
 
-class BinMatrix  
-  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger, :bin_matrix_csv 
+class BinMatrix
+  attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger, :bin_matrix_csv
   include Enumerable
-  
-  def initialize(bin_matrix_csv = 'spec/fixtures/100_tweets/bin_matrix.csv', 
+
+  def initialize(bin_matrix_csv = 'spec/fixtures/100_tweets/bin_matrix.csv',
                  csv_input = 'spec/fixtures/100_tweets/tweets_english.csv',
                  text_index = 2,
                  id_index = nil)
@@ -32,7 +32,7 @@ class BinMatrix
     end
   end
 
-  def build_bin_matrix 
+  def build_bin_matrix
     @documents_hash.inject([]) { |vec, word_ocurrences| vec.push(build_row(word_ocurrences.last))}.transpose
   end
 
@@ -77,7 +77,7 @@ class BinMatrix
   def build_row ocurrences
       ocurrences.inject(Array.new(@tweets_number)){|vec,p| vec[p] = 1; vec}.map{|p| p.nil? ? 0 : 1}
   end
-  
+
   def add_to_documents_hash i, word
     word = word.to_sym
     @documents_hash.has_key?( word ) ? @documents_hash[ word ].push( i ) : @documents_hash[ word ] = [i]
