@@ -84,7 +84,11 @@ class BinMatrix
   end
 
   def words_from line, &block
+    if @text_index != 0
      line.split(',')[@text_index].split.each{ |word| yield word}
+    else
+      line.split.each{ |word| yield word }
+    end
   end
 
   def get_id(line)

@@ -16,6 +16,11 @@ describe BinMatrix do
       @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 2)
       @bin_matrix.documents_hash.should eq({ayrikahnichole: [ 0 ], xbox: [ 0,1 ], yuda: [ 1 ], hono: [ 1 ], cazorla: [ 2 ], playing: [ 2 ], imp: [ 2 ]})
     end
+    ## Empty strings are needed to maintain order
+    it "can receive empty strings" do
+    @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 2)
+    @bin_matrix.documents_hash.should eq({ayrikahnichole: [ 0 ], xbox: [ 0,1 ], yuda: [ 1 ], hono: [ 1 ], cazorla: [ 2 ], playing: [ 2 ], imp: [ 2 ]})
+    end
   end
 
   describe '#build_bin_matrix' do
@@ -24,10 +29,13 @@ describe BinMatrix do
     @input_array << "ayrikahnichole xbox"
     @input_array << "yuda xbox hono"
     @input_array << "cazorla playing imp"
+    #supports emmpty strings
+    @input_array << ""
    @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 0 )
       @bin_matrix.build_bin_matrix.should eql([ [1, 1, 0, 0, 0, 0, 0],
                                                 [0, 1, 1, 1, 0, 0, 0],
-                                                [0, 0, 0, 0, 1, 1, 1] ])
+                                                [0, 0, 0, 0, 1, 1, 1],
+                                                [0, 0, 0, 0, 0, 0, 0]] )
     end
   end
   describe '#build_bin_matrix' do
