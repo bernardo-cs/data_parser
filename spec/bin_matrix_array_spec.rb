@@ -31,15 +31,13 @@ describe BinMatrix do
     @input_array << "cazorla playing imp"
     #supports emmpty strings
     @input_array << ""
-   @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 0 )
-      @bin_matrix.build_bin_matrix.should eql([ [1, 1, 0, 0, 0, 0, 0],
+    @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 0 )
+    @bin_matrix.build_bin_matrix.should eql([ [1, 1, 0, 0, 0, 0, 0],
                                                 [0, 1, 1, 1, 0, 0, 0],
                                                 [0, 0, 0, 0, 1, 1, 1],
                                                 [0, 0, 0, 0, 0, 0, 0]] )
     end
-  end
-  describe '#build_bin_matrix' do
-    it "constructs a binary matrix from the documents hash" do
+    it "constructs a binary matrix from csv file with the specified index" do
       @bin_matrix = BinMatrix.new( @csv_matrix_file.path, @input_array, 2)
       @bin_matrix.build_bin_matrix.should eql([ [1, 1, 0, 0, 0, 0, 0],
                                                 [0, 1, 1, 1, 0, 0, 0],

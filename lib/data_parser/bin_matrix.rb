@@ -1,5 +1,5 @@
 require 'csv'
-
+require_relative 'array.rb'
 class BinMatrix
   attr_accessor :documents_hash, :bin_matrix, :words, :csv_input, :line_id_logger, :bin_matrix_csv
   include Enumerable
