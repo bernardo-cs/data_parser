@@ -1,9 +1,9 @@
 class Array
-   @id
-   def set_id id
-     @id = id
+   @tweet
+   def set_tweet tweet
+     @tweet = tweet
    end
-   def id
-     @id
+   def tweet
+     @tweet
    end
 end
