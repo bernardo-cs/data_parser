@@ -25,8 +25,13 @@ describe TweetsBinMatrix do
    end
    it 'stores tweets inside the arrays' do
      @tbm.svm[0].tweet.text.should eq 'hello there how are you doing'
-
    end
+  end
+
+  describe '#read_tweet' do
+    it 'translate an svm array into its possible text' do
+      @tbm.read_tweet( [1,1] ).should eq('my name is dora the explorator')
+    end
   end
 
 end

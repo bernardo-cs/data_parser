@@ -5,6 +5,7 @@ require "set"
 module DataParser
   class TweetsBinMatrix
     attr_reader :tweets, :svm_words, :type_of_text, :svm, :word_index
+    alias_method :bin_matrix , :svm
 
     # svm_words is a Set with the words desired to be used in the input space
     # tweets is an array of MiniTwitter::Tweet
@@ -24,6 +25,10 @@ module DataParser
          svm[i].set_tweet tweet
          svm
       }
+    end
+
+    def read_tweet vector
+      @svm.select{ |m| m == vector }.tweet.text
     end
 
     private
@@ -52,6 +57,9 @@ module DataParser
     # reportable method from SOM library
     def read_tweet vector
       vector.tweet.text
+    end
+    def method_missing( meth, *args, &block )
+      @svm.send( meth, *args, &block )
     end
   end
 end
