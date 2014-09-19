@@ -30,7 +30,7 @@ describe TweetsBinMatrix do
 
   describe '#read_tweet' do
     it 'translate an svm array into its possible text' do
-      @tbm.read_tweet( [1,1] ).should eq('my name is dora the explorator')
+      @tbm.read_tweet( @tbm.svm.first ).should eq('hello there how are you doing')
     end
   end
 

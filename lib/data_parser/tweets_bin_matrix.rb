@@ -27,8 +27,10 @@ module DataParser
       }
     end
 
+    # Implements read_tweet in order to be compatible with
+    # reportable method from SOM library
     def read_tweet vector
-      @svm.select{ |m| m == vector }.tweet.text
+      vector.tweet.text
     end
 
     private
@@ -53,11 +55,6 @@ module DataParser
       Hash[svm_words.map.with_index.to_a]
     end
 
-    # Implements read_tweet in order to be compatible with
-    # reportable method from SOM library
-    def read_tweet vector
-      vector.tweet.text
-    end
     def method_missing( meth, *args, &block )
       @svm.send( meth, *args, &block )
     end
