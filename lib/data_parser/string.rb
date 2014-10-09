@@ -2,8 +2,8 @@ require 'uri'
 require 'lingua/stemmer'
 
 class String
-  @stop_words_cache = nil
-  @stop_words_trimed_cache = nil
+  @@stop_words_cache = nil
+  @@stop_words_trimed_cache = nil
 
   def trim
      remove_url
@@ -49,11 +49,11 @@ class String
 
   #DUP1: stopwords and stopwords methods can be reduced to only one method
   def stop_words_trimed
-    @stop_words_trimed_cache ||= IO.read(File.join(DataParser.storage,'mysql_stop_words_trimed.txt')).split   
+    @@stop_words_trimed_cache ||= IO.read(File.join(DataParser.storage,'mysql_stop_words_trimed.txt')).split   
   end
 
   #DUP1: stopwords and stopwords methods can be reduced to only one method
   def stop_words
-    @stop_words_cache ||= IO.read(File.join(DataParser.storage,'mysql_stop_words.txt')).split   
+    @@stop_words_cache ||= IO.read(File.join(DataParser.storage,'mysql_stop_words.txt')).split   
   end
 end

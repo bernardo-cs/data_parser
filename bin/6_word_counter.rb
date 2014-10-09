@@ -14,11 +14,12 @@ class String
   end
 end
 
-file = File.join( folder_local, 'tweets01_aaaa' )
+file = File.join( folder_server, 'tweets01_aaaa' )
 all_words = Set.new
 
-File.open(file,'r').each_line do |l|
+File.open(file,'r').each_line.with_index do |l,acum|
   begin
+    puts("Parsing Text: " + ( acum/902802.0*100.0 ).to_s + "%")  if acum%100 == 0
     tweet_text = JSON.parse( l )['text']
     all_words.merge( tweet_text.get_words_as_set ) unless tweet_text.nil?
   rescue JSON::ParserError
@@ -27,7 +28,8 @@ end
 results.puts("all_words\t#{all_words.size}")
 
 str_methods = [:remove_url, :remove_non_letters, :downcase, :squeeze, :remove_small_words, :remove_stop_words_trimed, :stem, :trim]
-str_methods.each do |m|
+str_methods.each.with_index do |m,i|
+  puts "Method #{i}: #{m.to_s}"
   s = Set.new( all_words.map(&:dup).map( &m ) )
   results.puts("#{m}\t#{s.size}")
 end
