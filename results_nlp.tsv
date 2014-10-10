@@ -1,0 +1,25 @@
+type	words_number
+discourse marker, indications of continuation across multiple tweets	1565
+at-mention (indicates a user as a recipient of a tweet)	214962
+determiner	1325
+common noun	170282
+pre- or postposition, or subordinating conjunction	3425
+verb including copula, auxiliaries	44209
+proper noun	236524
+URL or email address	76176
+punctuation	2954
+interjection	129788
+pronoun, non possessive	1786
+adverb	9929
+coordinating conjunction	262
+numeral	14726
+emoticon	19522
+other abbreviations, foreign words, possessive endings, symbols, garbage	177369
+hashtag (indicates topic/category for tweet)	29057
+adjective	15090
+proper noun + possessive	2420
+nominal + verbal (e.g. i’m), verbal + nominal (let’s)	1678
+verb particle	136
+nominal + possessive	323
+existential there, predeterminers	49
+X + verbal	8
