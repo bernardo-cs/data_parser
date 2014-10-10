@@ -9,22 +9,22 @@ folder_server = '/home/bersimoes/coding/twitter_data_francisco/decompressed/'
 results = File.open( 'results_nlp.tsv', 'w' )
 results.puts "type\twords_number"
 
-file = File.join( folder_local, 'tweets01_aaaa' )
+file = File.join( folder_server, 'tweets01_aaaa' )
 tweets = ""
 
 File.open(file,'r').each_line do |l|
   begin
     tweet_text = JSON.parse( l )['text']
-    all_words.merge( tweet_text.get_words_as_set ) unless tweet_text.nil?
+    tweets << tweet_text.split.join(' ') << "\n" unless tweet_text.nil?
   rescue JSON::ParserError
   end
 end
-results.puts("all_words\t#{all_words.size}")
 
-str_methods = [:remove_url, :remove_non_letters, :downcase, :squeeze, :remove_small_words, :remove_stop_words_trimed, :stem, :trim]
-str_methods.each do |m|
-  s = Set.new( all_words.map(&:dup).map( &m ) )
-  results.puts("#{m}\t#{s.size}")
+tagged_result = ArkTweetNlp::Parser.find_tags(tweets)
+tagged_result = ArkTweetNlp::Parser.get_words_tagged_as(tagged_result, *ArkTweetNlp::Parser::TAGSET.keys)
+tagged_result.each_pair do |k,v|
+  results.puts("#{ArkTweetNlp::Parser::TAGSET[k]}\t#{Set.new(v).size}")
 end
 
 results.close
+
