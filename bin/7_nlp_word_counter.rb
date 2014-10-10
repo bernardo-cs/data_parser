@@ -23,7 +23,8 @@ end
 tagged_result = ArkTweetNlp::Parser.find_tags(tweets)
 tagged_result = ArkTweetNlp::Parser.get_words_tagged_as(tagged_result, *ArkTweetNlp::Parser::TAGSET.keys)
 tagged_result.each_pair do |k,v|
-  results.puts("#{ArkTweetNlp::Parser::TAGSET[k]}\t#{Set.new(v).size}")
+  results.puts("#{ArkTweetNlp::Parser::TAGSET[k]}\t#{Set.new(v).size}\tfalse")
+  results.puts("#{ArkTweetNlp::Parser::TAGSET[k]}\t#{Set.new(v.map(&:trim)).size}\ttrue")
 end
 
 results.close
